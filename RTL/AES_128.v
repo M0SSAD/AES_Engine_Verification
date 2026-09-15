@@ -2,9 +2,9 @@ module AES_128(
     input clk, rst_n, valid_in, flag,
     input [127:0] input_text_128,
     input [127:0] cipher_key_128,
-    output valid_out,
-    output [127:0] cipher_text_128,
-    output [127:0] plain_text_128
+    output reg valid_out,
+    output reg [127:0] cipher_text_128,
+    output reg [127:0] plain_text_128
     );
 
     wire [127:0] enc_output;
