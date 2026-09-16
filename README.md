@@ -119,8 +119,8 @@ The base sequence is an abstract sequence that provides the common configuration
 The encryption and decryption sequences generate randomized AES transactions while constraining:
 
 ```text
-flag = 1 → encryption
-flag = 0 → decryption
+op = 1 → encryption
+op = 0 → decryption
 ```
 
 ### Encrypt → Decrypt sequence
@@ -169,17 +169,14 @@ The BFM drives request signals using NBA assignments at a clock edge.
 Conceptually:
 
 ```text
-Clock N
-   |
-   | BFM schedules request using NBA
-   |
-   v
-Pins contain request
+
+BFM schedules request using NBA
    |
    v
-Clock N+1
+@(Clock N Active Region) Pins contain request
    |
-   | DUT consumes request
+   v
+DUT consumes request
 ```
 
 ### Idle cycles
@@ -210,7 +207,7 @@ For transactions with:
 response_required = 1;
 ```
 
-the driver waits for `valid_out`, captures the response, associates it with the original transaction using:
+the driver waits a cycle, captures the response, associates it with the original transaction using:
 
 ```systemverilog
 rsp.set_id_info(tx);

@@ -2,15 +2,14 @@
 `define AES_SEQUENCE_ITEM
 
 class aes_sequence_item extends uvm_sequence_item;
-    rand logic flag;
-    rand logic [127:0] input_text_128;
-    rand logic [127:0] cipher_key_128;
+    rand aes_op_e op;
+    rand logic [127:0] data;
+    rand logic [127:0] key;
 
     bit response_required = 0;
 
     logic valid_out;
-    logic [127:0] cipher_text_128;
-    logic [127:0] plain_text_128;
+    logic [127:0] data_out;
 
     `uvm_object_utils(aes_sequence_item)
 

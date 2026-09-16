@@ -24,7 +24,7 @@ task aes_encrypt_decrypt_sequence::body();
         // Encryption Request
         encrypt_tx = aes_sequence_item::type_id::create("encrypt_tx");
         start_item(encrypt_tx);
-        assert(encrypt_tx.randomize() with {flag == 1;})
+        assert(encrypt_tx.randomize() with {op == ECNRYPT;})
             else `uvm_error("RAND_FAIL", {"Randomization failed in ", get_full_name(),"::body"});
 
         encrypt_tx.response_required = 1;
@@ -32,19 +32,19 @@ task aes_encrypt_decrypt_sequence::body();
 
         // Encryption Response
         get_response(encrypt_rsp);
-        `uvm_info(get_type_name(), $sformatf("Ciphertext = %032h", encrypt_rsp.cipher_text_128), UVM_LOW)
+        `uvm_info(get_type_name(), $sformatf("Ciphertext = %032h", encrypt_rsp.output), UVM_LOW)
 
         // Decryption Request
         decrypt_tx = aes_sequence_item::type_id::create("decrypt_tx");
         start_item(decrypt_tx);
-        assert(decrypt_tx.randomize() with {flag == 0; input_text_128 == encrypt_rsp.cipher_text_128; cipher_key_128 == encrypt_tx.cipher_key_128;})
+        assert(decrypt_tx.randomize() with {op == DECRYPT; data == encrypt_rsp.data_out; key == encrypt_tx.key;})
             else `uvm_error("RAND_FAIL", {"Randomization failed in ", get_full_name(),"::body"});
         decrypt_tx.response_required = 1;
         finish_item(decrypt_tx);
 
         // Decryption response
         get_response(decrypt_rsp);
-        `uvm_info(get_type_name(), $sformatf("Decrypted = %032h", decrypt_rsp.plain_text_128), UVM_LOW)
+        `uvm_info(get_type_name(), $sformatf("Decrypted = %032h", decrypt_rsp.output), UVM_LOW)
     end
 endtask
 

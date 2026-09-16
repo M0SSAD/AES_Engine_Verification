@@ -19,7 +19,7 @@ task aes_decrypt_sequence::body();
         `uvm_info(get_type_name(), $sformatf("Generating transaction %0d", i) ,UVM_LOW)
         tx = aes_sequence_item::type_id::create("tx");
         start_item(tx);
-        assert(tx.randomize() with {flag == 0;})
+        assert(tx.randomize() with {op == DECRYPT;})
             else `uvm_error("RAND_FAIL", {"Randomization failed in ", get_full_name(),"::body"});
         finish_item(tx);
     end

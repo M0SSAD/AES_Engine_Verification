@@ -1,9 +1,10 @@
 `ifndef AES_DRV_BFM_SV
 `define AES_DRV_BFM_SV
 
+import aes_pkg::*;
 interface aes_drv_bfm (
     aes_128_inf intf
-);
+);  
     task wait_for_reset();
         // wait for reset to be inasserted, so we don't lose transactions
         // to be called before the forever loop in the proxy
@@ -11,32 +12,38 @@ interface aes_drv_bfm (
     endtask
 
     task drive_request(
-        logic flag,
-        logic [127:0] input_text_128,
-        logic [127:0] cipher_key_128
+        input aes_op_e op,
+        input logic [127:0] data,
+        input logic [127:0] key
     );
-        // drive the pin signals @posedge of the clock using NBA, to queue the TX for the next cycle in the DUT.
-        @(posedge intf.clk); // at CLOCK N, schedule these inputs for CLOCK N+1
-        intf.flag <= flag;
-        intf.input_text_128 <= input_text_128;
-        intf.cipher_key_128 <= cipher_key_128;
+        intf.flag <= op;
+        intf.input_text_128 <= data;
+        intf.cipher_key_128 <= key;
         intf.valid_in <= 1;
+        @(posedge intf.clk); // At CLOCK N, these inputs are stable on the bus.
+        intf.valid_in <= 1'b0; // schedule valid_in to 0, will be overriden to 1, if there is a back to back transactions.
     endtask
 
     task drive_idle();
-        @(posedge intf.clk);
         intf.valid_in <= 1'b0;
+        @(posedge intf.clk);
     endtask
 
     task get_response(
+        input aes_op_e op,
         output logic valid_out,
-        output logic [127:0] cipher_text_128,
-        output logic [127:0] plain_text_128
+        output logic [127:0] data_out
     );
-        wait(intf.valid_out);
+        @(posedge intf.clk); // Wait for CLOCK N+1 To sample the output
+        if (!intf.valid_out) begin
+            wait(intf.valid_out);
+        end
         valid_out = intf.valid_out;
-        cipher_text_128 = intf.cipher_text_128;
-        plain_text_128 = intf.plain_text_128;
+        if(op == ENCRYPT) begin
+            data_out = intf.cipher_text_128;
+        end else begin
+            data_out = intf.plain_text_128;
+        end
     endtask
 endinterface
 

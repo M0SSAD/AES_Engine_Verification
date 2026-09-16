@@ -1,3 +1,4 @@
+import aes_pkg::*;
 interface aes_128_inf (input clk, rst_n);
 logic valid_in;
 logic flag;

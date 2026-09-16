@@ -21,9 +21,11 @@ module AES_128(
         end else if (flag && valid_in) begin
             valid_out <= 1'b1;
             cipher_text_128 <= enc_output;
+            plain_text_128 <= 0;
         end else if (!flag && valid_in) begin
             valid_out <= 1'b1;
             plain_text_128 <= dec_output;
+            cipher_text_128 <= 0;
         end else begin
             valid_out <= 1'b0;
         end
