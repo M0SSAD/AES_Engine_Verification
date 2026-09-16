@@ -24,11 +24,6 @@ interface aes_drv_bfm (
         intf.valid_in <= 1'b0; // schedule valid_in to 0, will be overriden to 1, if there is a back to back transactions.
     endtask
 
-    task drive_idle();
-        intf.valid_in <= 1'b0;
-        @(posedge intf.clk);
-    endtask
-
     task get_response(
         input aes_op_e op,
         output logic valid_out,

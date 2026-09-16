@@ -20,19 +20,16 @@ class aes_drv extends uvm_driver #(aes_sequence_item);
         forever begin
             aes_sequence_item tx;
             aes_sequence_item rsp;
-            if(seq_item_port.try_next_item(tx)) begin
-                drv_bfm.drive_request(tx.op, tx.data, tx.key);
-                if(tx.response_required) begin
-                    rsp = aes_sequence_item::type_id::create("rsp"); // Create the response object
-                    // call bfm to fill the response values.
-                    drv_bfm.get_response(rsp.valid_out, rsp.data_out);
-                    rsp.set_id_info(tx); // couples the response with its associated tx.
-                    seq_item_port.item_done(rsp);
-                end else begin
-                    seq_item_port.item_done();
-                end
+            seq_item_port.get_next_item(tx);
+            drv_bfm.drive_request(tx.op, tx.data, tx.key);
+            if(tx.response_required) begin
+                rsp = aes_sequence_item::type_id::create("rsp"); // Create the response object
+                // call bfm to fill the response values.
+                drv_bfm.get_response(rsp.valid_out, rsp.data_out);
+                rsp.set_id_info(tx); // couples the response with its associated tx.
+                seq_item_port.item_done(rsp);
             end else begin
-                drv_bfm.drive_idle();
+                seq_item_port.item_done();
             end
         end
     endtask
