@@ -2,8 +2,8 @@
 `define AES_AGENT_PKG_SV
 
 package aes_agent_pkg;
-
     import uvm_pkg::*;
+    import aes_pkg::*;
     `include "uvm_macros.svh"
 
     `include "./aes_sequence_item.svh"

@@ -3,6 +3,7 @@
 
 package aes_seq_pkg;
     import uvm_pkg::*;
+    import aes_pkg::*;
     import aes_agent_pkg::*;
     `include "uvm_macros.svh"
 
