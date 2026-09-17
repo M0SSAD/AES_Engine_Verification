@@ -8,7 +8,8 @@ class aes_env extends uvm_env;
     aes_env_config env_cfg;
     aes_agent env_agent;
 
-    // TODO: Scoreboard & Subscriper handles
+    // TODO: Subscriper handle
+    aes_scoreboard aes_scb;
 
     function new(string name = "aes_env", uvm_component parent);
         super.new(name, parent);
@@ -25,7 +26,7 @@ class aes_env extends uvm_env;
         uvm_config_db#(aes_agent_config)::set(this, "env_agent", "ag_cfg", env_cfg.ag_cfg);
 
         if(env_cfg.has_scoreboard) begin
-            // TODO Create the scoreboard
+            aes_scb = aes_scoreboard::type_id::create("aes_scb", this);
         end
 
         if(env_cfg.has_subscriber) begin
@@ -35,7 +36,8 @@ class aes_env extends uvm_env;
     
     function void connect_phase(uvm_phase phase);
         if(env_cfg.has_scoreboard) begin
-            // TODO Connect the scoreboard to the agent ap.
+            env_agent.req_ap.connect(aes_scb.scb_req_ap);
+            env_agent.rsp_ap.connect(aes_scb.scb_rsp_fifo.analysis_export);
         end
 
         if(env_cfg.has_subscriber) begin

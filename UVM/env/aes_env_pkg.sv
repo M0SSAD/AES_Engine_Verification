@@ -7,6 +7,7 @@ package aes_env_pkg;
     import aes_agent_pkg::*;
     `include "uvm_macros.svh"
 
+    `include "./aes_scoreboard.svh"
     `include "./aes_env_config.svh"
     `include "./aes_env.svh"
 

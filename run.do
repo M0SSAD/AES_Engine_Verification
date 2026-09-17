@@ -15,4 +15,4 @@ vlog ./UVM/env/aes_env_pkg.sv
 vlog ./UVM/tests/aes_test_pkg.sv
 
 vlog ./UVM/tb/aes_hdl_top.sv ./UVM/tb/aes_hvl_top.sv
-vsim -c aes_hdl_top aes_hvl_top +UVM_TESTNAME=aes_encrypt_test -do "run -all; quit -f"
+vsim -c aes_hdl_top aes_hvl_top +UVM_TESTNAME=aes_encrypt_decrypt_test +UVM_VERBOSITY=UVM_HIGH -do "run -all; quit -f"

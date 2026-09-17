@@ -16,6 +16,7 @@ class aes_encrypt_test extends aes_base_test;
         `uvm_info(get_type_name(), "Starting aes_encrypt_sequence...", UVM_LOW)
         seq.start(m_env.env_agent.ag_seq);
         `uvm_info(get_type_name(), "Completed aes_encrypt_sequence.", UVM_LOW)
+        phase.phase_done.set_drain_time(this, 100ns);
         phase.drop_objection(this);
     endtask
 endclass

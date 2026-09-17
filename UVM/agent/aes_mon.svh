@@ -29,6 +29,7 @@ class aes_mon extends uvm_monitor;
                 forever begin
                     aes_req = aes_sequence_item::type_id::create("aes_req");
                     mon_bfm.sample_request(aes_req.op, aes_req.data, aes_req.key);
+                    `uvm_info(get_type_name(), $sformatf("REQ_DATA: %32h, REQ_KEY: %32h", aes_req.data, aes_req.key), UVM_LOW)
                     `uvm_info(get_type_name(), $sformatf("Monitored REQ: op=%s, data=0x%032h, key=0x%032h", aes_req.op.name(), aes_req.data, aes_req.key), UVM_HIGH)
                     req_ap.write(aes_req);
                 end
