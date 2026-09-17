@@ -13,7 +13,7 @@ interface aes_mon_bfm (
 
     // wait for clock rising edge, sampling the input pins on it in the active region results in reading the values of the current Tx.
     task sample_request(
-        output logic op,
+        output aes_op_e op,
         output logic [127:0] data,
         output logic [127:0] key
     );
@@ -21,7 +21,7 @@ interface aes_mon_bfm (
             @(posedge intf.clk);
         end while (!intf.valid_in);
 
-        op = intf.flag;
+        op = aes_op_e'(intf.flag);
         data = intf.input_text_128;
         key = intf.cipher_key_128;
     endtask

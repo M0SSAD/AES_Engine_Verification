@@ -3,15 +3,16 @@ if ![file exists work] {
     vlog ./RTL/*.v
 }
 
-vlog ./UVM/aes_pkg.sv
+vlog ./UVM/common/aes_pkg.sv
 
-vlog ./UVM/aes_128_inf.sv 
-vlog ./UVM/aes_drv_bfm.sv
-vlog ./UVM/aes_mon_bfm.sv
+vlog ./UVM/tb/aes_128_inf.sv 
+vlog ./UVM/agent/aes_drv_bfm.sv
+vlog ./UVM/agent/aes_mon_bfm.sv
 
-vlog ./UVM/aes_agent_pkg.sv
-vlog ./UVM/aes_seq_pkg.sv
-vlog ./UVM/aes_env_pkg.sv
+vlog ./UVM/agent/aes_agent_pkg.sv
+vlog ./UVM/sequences/aes_seq_pkg.sv
+vlog ./UVM/env/aes_env_pkg.sv
+vlog ./UVM/tests/aes_test_pkg.sv
 
-vlog ./UVM/aes_hdl_top.sv ./UVM/aes_hvl_top.sv
-vsim -c aes_hdl_top aes_hvl_top -do "quit -f"
+vlog ./UVM/tb/aes_hdl_top.sv ./UVM/tb/aes_hvl_top.sv
+vsim -c aes_hdl_top aes_hvl_top +UVM_TESTNAME=aes_encrypt_test -do "run -all; quit -f"

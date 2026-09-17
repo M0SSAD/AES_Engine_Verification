@@ -1,6 +1,6 @@
 # AES-128 UVM Verification Environment
 
-A SystemVerilog/UVM verification environment for an AES-128 encryption/decryption RTL implementation.
+A SystemVerilog/UVM verification environment for an AES-128 encryption/decryption RTL implementation strictly following the Siemens UVM Cookbook guidelines.
 
 ## DUT
 
@@ -26,239 +26,240 @@ AES_128
 | `cipher_text_128` | Encryption result                            |
 | `plain_text_128`  | Decryption result                            |
 
-The DUT registers its outputs on the rising edge of `clk`.
+The DUT registers its outputs on the rising edge of `clk` with a 1-cycle latency. When `valid_out` is asserted, the unused output bus is driven to zero.
 
 ## Current UVM Architecture
 
-The current environment contains:
+The environment is structured as an emulation-ready, dual-top architecture:
 
 ```text
-                         HVL TOP
-                            |
-                         run_test()
-                            |
-                         UVM TEST
-                            |
-                        SEQUENCER
-                            |
-                         DRIVER
-                            |
-                    virtual BFM handle
-                            |
-                        DRIVER BFM
-                            |
-                       AES interface
-                            |
-                           DUT
+                             HVL TOP (aes_hvl_top)
+                                      |
+                                  run_test()
+                                      |
+                                   UVM TEST (aes_base_test / aes_encrypt_test)
+                                      |
+                                   UVM ENV (aes_env)
+                                      |
+                                  UVM AGENT (aes_agent)
+                         +------------+------------+
+                         |                         |
+                     SEQUENCER                  MONITOR (aes_mon)
+                         |                         |
+                      DRIVER (aes_drv)      virtual BFM handle
+                         |                         |
+                 virtual BFM handle           MONITOR BFM (aes_mon_bfm)
+                         |                         |
+                    DRIVER BFM (aes_drv_bfm)       |
+                         |                         |
+                         +------------+------------+
+                                      |
+                                AES Interface (aes_128_inf)
+                                      |
+                             HDL TOP / DUT (AES_128)
 ```
 
-The project uses a **dual-top architecture**:
+The project strictly separates HDL and HVL domains:
 
 ```text
-aes_hdl_top
-    ├── clock
-    ├── reset
-    ├── interface
-    ├── DUT
-    ├── driver BFM
-    └── UVM config_db setup
+aes_hdl_top (HDL Domain)
+    ├── Clock generator
+    ├── Reset generator
+    ├── Pin bundle interface (aes_128_inf)
+    ├── DUT instance (AES_128)
+    ├── Driver BFM (aes_drv_bfm)
+    ├── Monitor BFM (aes_mon_bfm)
+    └── uvm_config_db registration of virtual BFM handles
 
-aes_hvl_top
+aes_hvl_top (HVL Domain)
     └── run_test()
 ```
 
-- This separates the HDL-side components from the HVL/UVM side.
-- Abstracts low-level signal and bus-cycle details from the UVM environment.
-- Makes the testbench more reusable and portable across simulation and hardware-assisted verification/emulation.
+- HDL-side modules and interfaces house synthesizable RTL, structural wires, and pin-level BFMs.
+- HVL-side contains testbench classes (proxy transactors, configurations, sequences, and tests).
+- Follows the split-transactor approach for emulator portability and simulator performance.
 
 ## Transaction
 
-The current transaction is `aes_sequence_item`.
+The core transaction object is `aes_sequence_item`.
 
 It contains:
 
 ### Request fields
 
 ```systemverilog
-rand logic flag;
-rand logic [127:0] input_text_128;
-rand logic [127:0] cipher_key_128;
+rand aes_op_e      op;              // ENCRYPT (1'b1) or DECRYPT (1'b0)
+rand logic [127:0] data;
+rand logic [127:0] key;
 ```
 
 ### Response fields
 
 ```systemverilog
-logic valid_out;
-logic [127:0] cipher_text_128;
-logic [127:0] plain_text_128;
+logic              valid_out;
+logic [127:0]      data_out;
 ```
 
-It also contains:
+### Metadata
 
 ```systemverilog
-bit response_required;
+bit                response_required;
 ```
 
-This is metadata used by the driver to determine whether the sequence explicitly requires the DUT response to be returned through the UVM sequence-driver response mechanism.
+Used when a sequence explicitly requests the driver to return the monitored DUT response via `item_done(rsp)`.
 
-`valid_in` is intentionally **not** part of the transaction. It is a pin-level protocol signal controlled by the driver BFM.
+`valid_in` is intentionally **not** part of the transaction item; it is a pin-level protocol control managed by the BFM.
 
 ## Sequences
 
-The current sequence structure includes:
+The sequence package (`aes_seq_pkg`) includes:
 
-- `aes_base_sequence`
-- `aes_encrypt_sequence`
-- `aes_decrypt_sequence`
-- `aes_encrypt_decrypt_sequence`
-
-The base sequence is an abstract sequence that provides the common configuration for derived sequences.
-
-### Encrypt / Decrypt sequences
-
-The encryption and decryption sequences generate randomized AES transactions while constraining:
+- `aes_base_sequence`: Abstract base sequence parameterized to `aes_sequence_item`.
+- `aes_encrypt_sequence`: Generates randomized transactions constrained to `op == ENCRYPT`.
+- `aes_decrypt_sequence`: Generates randomized transactions constrained to `op == DECRYPT`.
+- `aes_encrypt_decrypt_sequence`: Generates a coupled sequence:
 
 ```text
-op = 1 → encryption
-op = 0 → decryption
-```
-
-### Encrypt → Decrypt sequence
-
-The combined sequence demonstrates a sequence-level dependency:
-
-```text
-Generate encryption transaction
+Generate encryption transaction (response_required = 1)
         |
         v
-Receive encryption response
+Receive encryption response (get_response(rsp))
         |
         v
-Use ciphertext as decryption input
+Use ciphertext as decryption input (data == encrypt_rsp.data_out)
         |
         v
 Generate decryption transaction
 ```
 
-This is the current use case for the transaction response mechanism.
+## Driver & Driver BFM
 
-## Driver
+### Driver Proxy (`aes_drv`)
 
-The driver uses:
+- Extends `uvm_driver #(aes_sequence_item)`.
+- Obtains its BFM handle directly from `aes_agent_config` (assigned by the agent).
+- In `run_phase`:
+  1. Blocks on `drv_bfm.wait_for_reset()`.
+  2. Fetches items via `seq_item_port.get_next_item(tx)`.
+  3. Hands off transaction parameters to `drv_bfm.drive_request(tx.op, tx.data, tx.key)`.
+  4. Returns response if `tx.response_required == 1`, else completes with `seq_item_port.item_done()`.
 
-```systemverilog
-seq_item_port.try_next_item(tx)
-```
+### Driver BFM (`aes_drv_bfm`)
 
-rather than `get_next_item()`.
-
-This allows the driver to operate cycle-by-cycle allowing to deassert valid_in if there is no transactions:
-
-```text
-Transaction available
-        |
-        +---- YES ---> drive transaction
-        |
-        +---- NO ----> drive idle cycle
-```
-
-### Request driving
-
-The BFM drives request signals using NBA assignments at a clock edge.
-
-Conceptually:
-
-```text
-
-BFM schedules request using NBA
-   |
-   v
-@(Clock N Active Region) Pins contain request
-   |
-   v
-DUT consumes request
-```
-
-### Idle cycles
-
-When the sequencer has no transaction available:
+Translates transaction-level calls into pin-level signal toggles:
 
 ```systemverilog
-drv_bfm.drive_idle();
+task wait_for_reset();
+task drive_request(input aes_op_e op, input logic [127:0] data, input logic [127:0] key);
+task get_response(output logic valid_out, output logic [127:0] data_out);
 ```
 
-drives:
+- Drives inputs before `posedge clk` using non-blocking assignments (`<=`), ensuring stable setup timing for the DUT.
+
+## Monitor & Monitor BFM
+
+### Monitor Proxy (`aes_mon`)
+
+- Extends `uvm_monitor`.
+- Exposes two independent analysis ports:
+  - `uvm_analysis_port #(aes_sequence_item) req_ap;`
+  - `uvm_analysis_port #(aes_sequence_item) rsp_ap;`
+- In `run_phase`:
+  - Waits for reset deassertion.
+  - Spawns two parallel threads via `fork ... join`:
+    - Thread 1: Continuously samples requests and broadcasts via `req_ap`.
+    - Thread 2: Continuously samples responses and broadcasts via `rsp_ap`.
+
+### Monitor BFM (`aes_mon_bfm`)
+
+Passively monitors interface activity without influencing the bus:
 
 ```systemverilog
-valid_in <= 1'b0;
+task wait_for_reset();
+task sample_request(output aes_op_e op, output logic [127:0] data, output logic [127:0] key);
+task sample_response(output logic valid_out, output logic [127:0] data_out);
 ```
 
-### Responses
+- Samples strictly on `posedge clk`.
+- Employs static casting `op = aes_op_e'(intf.flag)` for strict type safety.
+- Captures output data via bitwise OR (`intf.cipher_text_128 | intf.plain_text_128`) without creating a dependency on input flags.
 
-For ordinary transactions, the driver completes the sequence item with:
+## Agent & Agent Configuration
 
-```systemverilog
-seq_item_port.item_done();
-```
+### Agent Configuration (`aes_agent_config`)
 
-For transactions with:
+- Encapsulates virtual interface handles (`drv_bfm`, `mon_bfm`).
+- Defines operating mode: `uvm_active_passive_enum is_active = UVM_ACTIVE;`.
+- Controls sub-component coverage and scoreboard knobs.
 
-```systemverilog
-response_required = 1;
-```
+### Agent (`aes_agent`)
 
-the driver waits a cycle, captures the response, associates it with the original transaction using:
+- Extends `uvm_agent`.
+- Retrieves `aes_agent_config` from `uvm_config_db`.
+- Unconditionally builds `aes_mon`.
+- Conditionally builds `aes_drv` and `aes_sequencer` when `is_active == UVM_ACTIVE`.
+- Assigns BFM handles directly to child components.
+- Exposes monitor analysis ports hierarchically (`req_ap = ag_mon.req_ap;`, `rsp_ap = ag_mon.rsp_ap;`).
 
-```systemverilog
-rsp.set_id_info(tx);
-```
+## Environment & Environment Configuration
 
-and completes the item with:
+### Environment Configuration (`aes_env_config`)
 
-```systemverilog
-seq_item_port.item_done(rsp);
-```
+- Contains child `aes_agent_config` instance.
+- Flags: `has_scoreboard`, `has_subscriber`.
 
-## Driver BFM
+### Environment (`aes_env`)
 
-The driver BFM currently provides four operations:
+- Extends `uvm_env`.
+- Retrieves `aes_env_config` from `uvm_config_db`.
+- Unpacks `ag_cfg` and publishes it via `uvm_config_db#(aes_agent_config)::set(this, "env_agent", "ag_cfg", env_cfg.ag_cfg)`.
+- Instantiates `env_agent`.
+- Prepares connection hooks for upcoming Scoreboard and Functional Coverage subscriber.
 
-```systemverilog
-wait_for_reset()
-drive_request(...)
-drive_idle()
-get_response(...)
-```
+## Tests
 
-The BFM is responsible for translating transaction-level driver operations into pin-level activity.
+The test layer (`aes_test_pkg`) includes:
 
-It contains no UVM classes or UVM-specific logic.
+- `aes_base_test`:
+  - Retrieves `drv_bfm` and `mon_bfm` handles from `uvm_config_db`.
+  - Creates and populates `env_cfg` and `ag_cfg`.
+  - Configures `uvm_config_db` for `m_env`.
+  - Builds `m_env`.
+  - Calls `uvm_top.print_topology()` in `end_of_elaboration_phase`.
+- `aes_encrypt_test`: Extends `aes_base_test`, executes `aes_encrypt_sequence`.
+- `aes_decrypt_test`: Extends `aes_base_test`, executes `aes_decrypt_sequence`.
+- `aes_encrypt_decrypt_test`: Extends `aes_base_test`, executes `aes_encrypt_decrypt_sequence`.
 
-## Compilation
+## Compilation & Simulation
 
-The current environment can be compiled incrementally with QuestaSim.
-
-Example:
+The testbench is compiled modularly with QuestaSim via [`run.do`](./run.do):
 
 ```tcl
-vlib work
+if ![file exists work] {
+    vlib work
+    vlog ./RTL/*.v
+}
 
-vlog ./RTL/*.v
+vlog ./UVM/common/aes_pkg.sv
 
-vlog ./UVM/aes_128_inf.sv
-vlog ./UVM/aes_drv_bfm.sv
+vlog ./UVM/tb/aes_128_inf.sv 
+vlog ./UVM/agent/aes_drv_bfm.sv
+vlog ./UVM/agent/aes_mon_bfm.sv
 
-vlog ./UVM/aes_agent_pkg.sv
-vlog ./UVM/aes_seq_pkg.sv
+vlog ./UVM/agent/aes_agent_pkg.sv
+vlog ./UVM/sequences/aes_seq_pkg.sv
+vlog ./UVM/env/aes_env_pkg.sv
+vlog ./UVM/tests/aes_test_pkg.sv
 
-vlog ./UVM/aes_hdl_top.sv
-vlog ./UVM/aes_hvl_top.sv
+vlog ./UVM/tb/aes_hdl_top.sv ./UVM/tb/aes_hvl_top.sv
+vsim -c aes_hdl_top aes_hvl_top +UVM_TESTNAME=aes_encrypt_test -do "run -all; quit -f"
 ```
 
-The current dual-top structure can be elaborated with:
+To run a different test, pass `+UVM_TESTNAME=<test_name>`:
 
 ```tcl
-vsim -c aes_hdl_top aes_hvl_top -do "quit -f"
+vsim -c aes_hdl_top aes_hvl_top +UVM_TESTNAME=aes_decrypt_test -do "run -all; quit -f"
+vsim -c aes_hdl_top aes_hvl_top +UVM_TESTNAME=aes_encrypt_decrypt_test -do "run -all; quit -f"
 ```
 
 ## Directory Structure
@@ -284,21 +285,47 @@ AES/
 │   └── subBytes.v
 │
 ├── UVM/
-│   ├── golden_model/
+│   ├── common/
+│   │   └── aes_pkg.sv
+│   │
+│   ├── tb/
+│   │   ├── aes_128_inf.sv
+│   │   ├── aes_hdl_top.sv
+│   │   └── aes_hvl_top.sv
+│   │
+│   ├── agent/
+│   │   ├── aes_agent_pkg.sv
+│   │   ├── aes_sequence_item.svh
+│   │   ├── aes_agent_config.svh
+│   │   ├── aes_drv.svh
+│   │   ├── aes_drv_bfm.sv
+│   │   ├── aes_mon.svh
+│   │   ├── aes_mon_bfm.sv
+│   │   └── aes_agent.svh
+│   │
+│   ├── env/
+│   │   ├── aes_env_pkg.sv
+│   │   ├── aes_env_config.svh
+│   │   └── aes_env.svh
+│   │
 │   ├── sequences/
+│   │   ├── aes_seq_pkg.sv
 │   │   ├── aes_base_sequence.svh
-│   │   ├── aes_decrypt_sequence.svh
 │   │   ├── aes_encrypt_sequence.svh
+│   │   ├── aes_decrypt_sequence.svh
 │   │   └── aes_encrypt_decrypt_sequence.svh
 │   │
-│   ├── aes_128_inf.sv
-│   ├── aes_agent_pkg.sv
-│   ├── aes_drv.svh
-│   ├── aes_drv_bfm.sv
-│   ├── aes_hdl_top.sv
-│   ├── aes_hvl_top.sv
-│   ├── aes_sequence_item.svh
-│   └── aes_seq_pkg.sv
+│   ├── tests/
+│   │   ├── aes_test_pkg.sv
+│   │   ├── aes_base_test.svh
+│   │   ├── aes_encrypt_test.svh
+│   │   ├── aes_decrypt_test.svh
+│   │   └── aes_encrypt_decrypt_test.svh
+│   │
+│   └── golden_model/
+│       ├── aes_encrypt.py
+│       └── aes_decrypt.py
 │
+├── run.do
 └── README.md
 ```

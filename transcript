@@ -1,99 +1,122 @@
 # do run.do
 # QuestaSim-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
-# Start time: 18:25:07 on Sep 17,2026
-# vlog ./UVM/aes_pkg.sv 
+# Start time: 19:09:20 on Sep 17,2026
+# vlog ./UVM/common/aes_pkg.sv 
 # -- Compiling package aes_pkg
 # 
 # Top level modules:
 # 	--none--
-# End time: 18:25:08 on Sep 17,2026, Elapsed time: 0:00:01
+# End time: 19:09:20 on Sep 17,2026, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # QuestaSim-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
-# Start time: 18:25:08 on Sep 17,2026
-# vlog ./UVM/aes_128_inf.sv 
+# Start time: 19:09:20 on Sep 17,2026
+# vlog ./UVM/tb/aes_128_inf.sv 
+# ** Warning: ./UVM/tb/aes_128_inf.sv(1): (vlog-13233) Design unit "aes_128_inf_sv_unit" already exists and will be overwritten. Overwriting SystemVerilog $unit with different source files.
 # -- Compiling package aes_128_inf_sv_unit
 # -- Importing package aes_pkg
 # -- Compiling interface aes_128_inf
 # 
 # Top level modules:
 # 	--none--
-# End time: 18:25:08 on Sep 17,2026, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
+# End time: 19:09:20 on Sep 17,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 1
 # QuestaSim-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
-# Start time: 18:25:08 on Sep 17,2026
-# vlog ./UVM/aes_drv_bfm.sv 
+# Start time: 19:09:20 on Sep 17,2026
+# vlog ./UVM/agent/aes_drv_bfm.sv 
+# ** Warning: ./UVM/agent/aes_drv_bfm.sv(4): (vlog-13233) Design unit "aes_drv_bfm_sv_unit" already exists and will be overwritten. Overwriting SystemVerilog $unit with different source files.
 # -- Compiling package aes_drv_bfm_sv_unit
 # -- Importing package aes_pkg
 # -- Compiling interface aes_drv_bfm
 # 
 # Top level modules:
 # 	--none--
-# End time: 18:25:08 on Sep 17,2026, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
+# End time: 19:09:20 on Sep 17,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 1
 # QuestaSim-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
-# Start time: 18:25:08 on Sep 17,2026
-# vlog ./UVM/aes_mon_bfm.sv 
+# Start time: 19:09:20 on Sep 17,2026
+# vlog ./UVM/agent/aes_mon_bfm.sv 
+# ** Warning: ./UVM/agent/aes_mon_bfm.sv(4): (vlog-13233) Design unit "aes_mon_bfm_sv_unit" already exists and will be overwritten. Overwriting SystemVerilog $unit with different source files.
 # -- Compiling package aes_mon_bfm_sv_unit
 # -- Importing package aes_pkg
 # -- Compiling interface aes_mon_bfm
 # 
 # Top level modules:
 # 	--none--
-# End time: 18:25:08 on Sep 17,2026, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
+# End time: 19:09:20 on Sep 17,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 1
 # QuestaSim-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
-# Start time: 18:25:08 on Sep 17,2026
-# vlog ./UVM/aes_agent_pkg.sv 
+# Start time: 19:09:20 on Sep 17,2026
+# vlog ./UVM/agent/aes_agent_pkg.sv 
 # -- Compiling package aes_agent_pkg
 # -- Importing package mtiUvm.uvm_pkg (uvm-1.1d Built-in)
 # -- Importing package aes_pkg
-# ** Note: (vlog-2286) ./UVM/aes_agent_pkg.sv(7): Using implicit +incdir+D:/QuestaSim/uvm-1.1d/../verilog_src/uvm-1.1d/src from import uvm_pkg
+# ** Note: (vlog-2286) ./UVM/agent/aes_agent_pkg.sv(7): Using implicit +incdir+D:/QuestaSim/uvm-1.1d/../verilog_src/uvm-1.1d/src from import uvm_pkg
 # 
 # Top level modules:
 # 	--none--
-# End time: 18:25:08 on Sep 17,2026, Elapsed time: 0:00:00
+# End time: 19:09:21 on Sep 17,2026, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
 # QuestaSim-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
-# Start time: 18:25:08 on Sep 17,2026
-# vlog ./UVM/aes_seq_pkg.sv 
+# Start time: 19:09:21 on Sep 17,2026
+# vlog ./UVM/sequences/aes_seq_pkg.sv 
 # -- Compiling package aes_seq_pkg
 # -- Importing package mtiUvm.uvm_pkg (uvm-1.1d Built-in)
 # -- Importing package aes_pkg
 # -- Importing package aes_agent_pkg
-# ** Note: (vlog-2286) ./UVM/aes_seq_pkg.sv(8): Using implicit +incdir+D:/QuestaSim/uvm-1.1d/../verilog_src/uvm-1.1d/src from import uvm_pkg
+# ** Note: (vlog-2286) ./UVM/sequences/aes_seq_pkg.sv(8): Using implicit +incdir+D:/QuestaSim/uvm-1.1d/../verilog_src/uvm-1.1d/src from import uvm_pkg
 # 
 # Top level modules:
 # 	--none--
-# End time: 18:25:09 on Sep 17,2026, Elapsed time: 0:00:01
+# End time: 19:09:22 on Sep 17,2026, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
 # QuestaSim-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
-# Start time: 18:25:09 on Sep 17,2026
-# vlog ./UVM/aes_env_pkg.sv 
+# Start time: 19:09:22 on Sep 17,2026
+# vlog ./UVM/env/aes_env_pkg.sv 
 # -- Compiling package aes_env_pkg
 # -- Importing package mtiUvm.uvm_pkg (uvm-1.1d Built-in)
 # -- Importing package aes_pkg
 # -- Importing package aes_agent_pkg
-# ** Note: (vlog-2286) ./UVM/aes_env_pkg.sv(8): Using implicit +incdir+D:/QuestaSim/uvm-1.1d/../verilog_src/uvm-1.1d/src from import uvm_pkg
+# ** Note: (vlog-2286) ./UVM/env/aes_env_pkg.sv(8): Using implicit +incdir+D:/QuestaSim/uvm-1.1d/../verilog_src/uvm-1.1d/src from import uvm_pkg
 # 
 # Top level modules:
 # 	--none--
-# End time: 18:25:09 on Sep 17,2026, Elapsed time: 0:00:00
+# End time: 19:09:22 on Sep 17,2026, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # QuestaSim-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
-# Start time: 18:25:09 on Sep 17,2026
-# vlog ./UVM/aes_hdl_top.sv ./UVM/aes_hvl_top.sv 
+# Start time: 19:09:22 on Sep 17,2026
+# vlog ./UVM/tests/aes_test_pkg.sv 
+# -- Compiling package aes_test_pkg
+# -- Importing package mtiUvm.uvm_pkg (uvm-1.1d Built-in)
+# -- Importing package aes_pkg
+# -- Importing package aes_agent_pkg
+# -- Importing package aes_env_pkg
+# -- Importing package aes_seq_pkg
+# ** Note: (vlog-2286) ./UVM/tests/aes_test_pkg.sv(10): Using implicit +incdir+D:/QuestaSim/uvm-1.1d/../verilog_src/uvm-1.1d/src from import uvm_pkg
+# 
+# Top level modules:
+# 	--none--
+# End time: 19:09:23 on Sep 17,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
+# Start time: 19:09:23 on Sep 17,2026
+# vlog ./UVM/tb/aes_hdl_top.sv ./UVM/tb/aes_hvl_top.sv 
 # -- Compiling module aes_hdl_top
 # -- Importing package mtiUvm.uvm_pkg (uvm-1.1d Built-in)
 # -- Compiling module aes_hvl_top
+# -- Importing package aes_test_pkg
+# -- Importing package aes_pkg
+# -- Importing package aes_agent_pkg
+# -- Importing package aes_env_pkg
+# -- Importing package aes_seq_pkg
 # 
 # Top level modules:
 # 	aes_hdl_top
 # 	aes_hvl_top
-# End time: 18:25:10 on Sep 17,2026, Elapsed time: 0:00:01
+# End time: 19:09:23 on Sep 17,2026, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# vsim -c aes_hdl_top aes_hvl_top -do "quit -f" 
-# Start time: 18:25:10 on Sep 17,2026
-# ** Note: (vsim-8009) Loading existing optimized design _opt1
+# vsim -c aes_hdl_top aes_hvl_top "+UVM_TESTNAME=aes_encrypt_test" -do "run -all; quit -f" 
+# Start time: 19:09:24 on Sep 17,2026
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
 # //  Questa Sim-64
 # //  Version 2021.1 win64 Jan 19 2021
 # //
@@ -118,13 +141,163 @@
 # Loading work.encryptRound(fast)
 # Loading work.decryptRound(fast)
 # Loading work.aes_drv_bfm_sv_unit(fast)
-# Loading work.aes_drv_bfm(fast__1)
+# Loading work.aes_drv_bfm(fast__3)
 # Loading work.aes_mon_bfm_sv_unit(fast)
-# Loading work.aes_mon_bfm(fast__1)
-# Loading work.aes_hvl_top(fast)
+# Loading work.aes_mon_bfm(fast__3)
 # Loading work.aes_drv_bfm(fast)
 # Loading work.aes_mon_bfm(fast)
+# Loading work.aes_agent_pkg(fast)
+# Loading work.aes_seq_pkg(fast)
+# Loading work.aes_env_pkg(fast)
+# Loading work.aes_test_pkg(fast)
+# Loading work.aes_hvl_top(fast)
+# ** Warning: (vsim-8887) Virtual interface element 'this.mon_bfm.sample_request' uses an interface with interface ports.
+#    Time: 0 ns  Iteration: 0  Region: /aes_agent_pkg File: ./UVM/agent/./aes_mon.svh Line: 31
+# ** Warning: (vsim-8887) Virtual interface element 'this.mon_bfm.sample_response' uses an interface with interface ports.
+#    Time: 0 ns  Iteration: 0  Region: /aes_agent_pkg File: ./UVM/agent/./aes_mon.svh Line: 39
+# ** Warning: (vsim-8887) Virtual interface element 'this.mon_bfm.wait_for_reset' uses an interface with interface ports.
+#    Time: 0 ns  Iteration: 0  Region: /aes_agent_pkg File: ./UVM/agent/./aes_mon.svh Line: 24
+# ** Warning: (vsim-8887) Virtual interface element 'this.mon_bfm.sample_response' uses an interface with interface ports.
+#    Time: 0 ns  Iteration: 0  Region: /aes_agent_pkg File: ./UVM/agent/./aes_mon.svh Line: 39
+# ** Warning: (vsim-8887) Virtual interface element 'this.mon_bfm.data_out' uses an interface with interface ports.
+#    Time: 0 ns  Iteration: 0  Region: /aes_agent_pkg File: ./UVM/agent/./aes_mon.svh Line: 39
+# ** Warning: (vsim-8887) Virtual interface element 'this.mon_bfm.sample_response' uses an interface with interface ports.
+#    Time: 0 ns  Iteration: 0  Region: /aes_agent_pkg File: ./UVM/agent/./aes_mon.svh Line: 39
+# ** Warning: (vsim-8887) Virtual interface element 'this.mon_bfm.valid_out' uses an interface with interface ports.
+#    Time: 0 ns  Iteration: 0  Region: /aes_agent_pkg File: ./UVM/agent/./aes_mon.svh Line: 39
+# ** Warning: (vsim-8887) Virtual interface element 'this.mon_bfm.sample_request' uses an interface with interface ports.
+#    Time: 0 ns  Iteration: 0  Region: /aes_agent_pkg File: ./UVM/agent/./aes_mon.svh Line: 31
+# ** Warning: (vsim-8887) Virtual interface element 'this.mon_bfm.key' uses an interface with interface ports.
+#    Time: 0 ns  Iteration: 0  Region: /aes_agent_pkg File: ./UVM/agent/./aes_mon.svh Line: 31
+# ** Warning: (vsim-8887) Virtual interface element 'this.mon_bfm.sample_request' uses an interface with interface ports.
+#    Time: 0 ns  Iteration: 0  Region: /aes_agent_pkg File: ./UVM/agent/./aes_mon.svh Line: 31
+# ** Warning: (vsim-8887) Virtual interface element 'this.mon_bfm.data' uses an interface with interface ports.
+#    Time: 0 ns  Iteration: 0  Region: /aes_agent_pkg File: ./UVM/agent/./aes_mon.svh Line: 31
+# ** Warning: (vsim-8887) Virtual interface element 'this.mon_bfm.sample_request' uses an interface with interface ports.
+#    Time: 0 ns  Iteration: 0  Region: /aes_agent_pkg File: ./UVM/agent/./aes_mon.svh Line: 31
+# ** Warning: (vsim-8887) Virtual interface element 'this.mon_bfm.op' uses an interface with interface ports.
+#    Time: 0 ns  Iteration: 0  Region: /aes_agent_pkg File: ./UVM/agent/./aes_mon.svh Line: 31
+# ** Warning: (vsim-8887) Virtual interface element 'this.drv_bfm.wait_for_reset' uses an interface with interface ports.
+#    Time: 0 ns  Iteration: 0  Region: /aes_agent_pkg::aes_drv File: ./UVM/agent/./aes_drv.svh Line: 19
+# ** Warning: (vsim-8887) Virtual interface element 'this.drv_bfm.drive_request' uses an interface with interface ports.
+#    Time: 0 ns  Iteration: 0  Region: /aes_agent_pkg::aes_drv File: ./UVM/agent/./aes_drv.svh Line: 26
+# ** Warning: (vsim-8887) Virtual interface element 'this.drv_bfm.get_response' uses an interface with interface ports.
+#    Time: 0 ns  Iteration: 0  Region: /aes_agent_pkg::aes_drv File: ./UVM/agent/./aes_drv.svh Line: 30
+# ** Warning: (vsim-8887) Virtual interface element 'this.drv_bfm.drive_request' uses an interface with interface ports.
+#    Time: 0 ns  Iteration: 0  Region: /aes_agent_pkg::aes_drv File: ./UVM/agent/./aes_drv.svh Line: 26
+# ** Warning: (vsim-8887) Virtual interface element 'this.drv_bfm.op' uses an interface with interface ports.
+#    Time: 0 ns  Iteration: 0  Region: /aes_agent_pkg::aes_drv File: ./UVM/agent/./aes_drv.svh Line: 26
+# ** Warning: (vsim-8887) Virtual interface element 'this.drv_bfm.drive_request' uses an interface with interface ports.
+#    Time: 0 ns  Iteration: 0  Region: /aes_agent_pkg::aes_drv File: ./UVM/agent/./aes_drv.svh Line: 26
+# ** Warning: (vsim-8887) Virtual interface element 'this.drv_bfm.data' uses an interface with interface ports.
+#    Time: 0 ns  Iteration: 0  Region: /aes_agent_pkg::aes_drv File: ./UVM/agent/./aes_drv.svh Line: 26
+# ** Warning: (vsim-8887) Virtual interface element 'this.drv_bfm.drive_request' uses an interface with interface ports.
+#    Time: 0 ns  Iteration: 0  Region: /aes_agent_pkg::aes_drv File: ./UVM/agent/./aes_drv.svh Line: 26
+# ** Warning: (vsim-8887) Virtual interface element 'this.drv_bfm.key' uses an interface with interface ports.
+#    Time: 0 ns  Iteration: 0  Region: /aes_agent_pkg::aes_drv File: ./UVM/agent/./aes_drv.svh Line: 26
+# ** Warning: (vsim-8887) Virtual interface element 'this.drv_bfm.get_response' uses an interface with interface ports.
+#    Time: 0 ns  Iteration: 0  Region: /aes_agent_pkg::aes_drv File: ./UVM/agent/./aes_drv.svh Line: 30
+# ** Warning: (vsim-8887) Virtual interface element 'this.drv_bfm.valid_out' uses an interface with interface ports.
+#    Time: 0 ns  Iteration: 0  Region: /aes_agent_pkg::aes_drv File: ./UVM/agent/./aes_drv.svh Line: 30
+# ** Warning: (vsim-8887) Virtual interface element 'this.drv_bfm.get_response' uses an interface with interface ports.
+#    Time: 0 ns  Iteration: 0  Region: /aes_agent_pkg::aes_drv File: ./UVM/agent/./aes_drv.svh Line: 30
+# ** Warning: (vsim-8887) Virtual interface element 'this.drv_bfm.data_out' uses an interface with interface ports.
+#    Time: 0 ns  Iteration: 0  Region: /aes_agent_pkg::aes_drv File: ./UVM/agent/./aes_drv.svh Line: 30
 # Loading D:/QuestaSim/uvm-1.1d\win64\uvm_dpi.dll
-# quit -f
-# End time: 18:25:18 on Sep 17,2026, Elapsed time: 0:00:08
-# Errors: 0, Warnings: 0
+# run -all
+# ----------------------------------------------------------------
+# UVM-1.1d
+# (C) 2007-2013 Mentor Graphics Corporation
+# (C) 2007-2013 Cadence Design Systems, Inc.
+# (C) 2006-2013 Synopsys, Inc.
+# (C) 2011-2013 Cypress Semiconductor Corp.
+# ----------------------------------------------------------------
+# 
+#   ***********       IMPORTANT RELEASE NOTES         ************
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_NO_DEPRECATED undefined.
+#   See http://www.eda.org/svdb/view.php?id=3313 for more details.
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_OBJECT_MUST_HAVE_CONSTRUCTOR undefined.
+#   See http://www.eda.org/svdb/view.php?id=3770 for more details.
+# 
+#       (Specify +UVM_NO_RELNOTES to turn off this notice)
+# 
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(277) @ 0: reporter [Questa UVM] QUESTA_UVM-1.2.3
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(278) @ 0: reporter [Questa UVM]  questa_uvm::init(+struct)
+# UVM_INFO @ 0: reporter [RNTST] Running test aes_encrypt_test...
+# UVM_INFO ./UVM/tests/./aes_base_test.svh(38) @ 0: uvm_test_top [aes_encrypt_test] aes_base_test: build_phase completed successfully.
+# UVM_INFO ./UVM/env/./aes_env.svh(23) @ 0: uvm_test_top.m_env [aes_env] Building AES environment and sub-components...
+# UVM_INFO ./UVM/agent/./aes_agent.svh(27) @ 0: uvm_test_top.m_env.env_agent [aes_agent] Configured agent with is_active=UVM_ACTIVE
+# UVM_INFO @ 0: reporter [UVMTOP] UVM testbench topology:
+# --------------------------------------------------------------
+# Name                       Type                    Size  Value
+# --------------------------------------------------------------
+# uvm_test_top               aes_encrypt_test        -     @478 
+#   m_env                    aes_env                 -     @493 
+#     env_agent              aes_agent               -     @501 
+#       ag_drv               aes_drv                 -     @630 
+#         rsp_port           uvm_analysis_port       -     @645 
+#         seq_item_port      uvm_seq_item_pull_port  -     @637 
+#       ag_mon               aes_mon                 -     @514 
+#         req_ap             uvm_analysis_port       -     @653 
+#         rsp_ap             uvm_analysis_port       -     @661 
+#       ag_seq               uvm_sequencer           -     @521 
+#         rsp_export         uvm_analysis_export     -     @528 
+#         seq_item_export    uvm_seq_item_pull_imp   -     @622 
+#         arbitration_queue  array                   0     -    
+#         lock_queue         array                   0     -    
+#         num_last_reqs      integral                32    'd1  
+#         num_last_rsps      integral                32    'd1  
+# --------------------------------------------------------------
+# 
+# UVM_INFO ./UVM/tests/./aes_encrypt_test.svh(16) @ 0: uvm_test_top [aes_encrypt_test] Starting aes_encrypt_sequence...
+# UVM_INFO ./UVM/sequences/./aes_encrypt_sequence.svh(19) @ 0: uvm_test_top.m_env.env_agent.ag_seq@@seq [aes_encrypt_sequence] Generating transaction 0
+# UVM_INFO ./UVM/agent/./aes_drv.svh(20) @ 35: uvm_test_top.m_env.env_agent.ag_drv [aes_drv] Reset released. Driver starting transaction loop.
+# UVM_INFO ./UVM/agent/./aes_mon.svh(25) @ 35: uvm_test_top.m_env.env_agent.ag_mon [aes_mon] Reset released. Monitor starting sampling loops.
+# UVM_INFO ./UVM/sequences/./aes_encrypt_sequence.svh(19) @ 45: uvm_test_top.m_env.env_agent.ag_seq@@seq [aes_encrypt_sequence] Generating transaction 1
+# UVM_INFO ./UVM/sequences/./aes_encrypt_sequence.svh(19) @ 55: uvm_test_top.m_env.env_agent.ag_seq@@seq [aes_encrypt_sequence] Generating transaction 2
+# UVM_INFO ./UVM/sequences/./aes_encrypt_sequence.svh(19) @ 65: uvm_test_top.m_env.env_agent.ag_seq@@seq [aes_encrypt_sequence] Generating transaction 3
+# UVM_INFO ./UVM/sequences/./aes_encrypt_sequence.svh(19) @ 75: uvm_test_top.m_env.env_agent.ag_seq@@seq [aes_encrypt_sequence] Generating transaction 4
+# UVM_INFO ./UVM/sequences/./aes_encrypt_sequence.svh(19) @ 85: uvm_test_top.m_env.env_agent.ag_seq@@seq [aes_encrypt_sequence] Generating transaction 5
+# UVM_INFO ./UVM/sequences/./aes_encrypt_sequence.svh(19) @ 95: uvm_test_top.m_env.env_agent.ag_seq@@seq [aes_encrypt_sequence] Generating transaction 6
+# UVM_INFO ./UVM/sequences/./aes_encrypt_sequence.svh(19) @ 105: uvm_test_top.m_env.env_agent.ag_seq@@seq [aes_encrypt_sequence] Generating transaction 7
+# UVM_INFO ./UVM/sequences/./aes_encrypt_sequence.svh(19) @ 115: uvm_test_top.m_env.env_agent.ag_seq@@seq [aes_encrypt_sequence] Generating transaction 8
+# UVM_INFO ./UVM/sequences/./aes_encrypt_sequence.svh(19) @ 125: uvm_test_top.m_env.env_agent.ag_seq@@seq [aes_encrypt_sequence] Generating transaction 9
+# UVM_INFO ./UVM/sequences/./aes_encrypt_sequence.svh(19) @ 135: uvm_test_top.m_env.env_agent.ag_seq@@seq [aes_encrypt_sequence] Generating transaction 10
+# UVM_INFO ./UVM/sequences/./aes_encrypt_sequence.svh(19) @ 145: uvm_test_top.m_env.env_agent.ag_seq@@seq [aes_encrypt_sequence] Generating transaction 11
+# UVM_INFO ./UVM/sequences/./aes_encrypt_sequence.svh(19) @ 155: uvm_test_top.m_env.env_agent.ag_seq@@seq [aes_encrypt_sequence] Generating transaction 12
+# UVM_INFO ./UVM/sequences/./aes_encrypt_sequence.svh(19) @ 165: uvm_test_top.m_env.env_agent.ag_seq@@seq [aes_encrypt_sequence] Generating transaction 13
+# UVM_INFO ./UVM/sequences/./aes_encrypt_sequence.svh(19) @ 175: uvm_test_top.m_env.env_agent.ag_seq@@seq [aes_encrypt_sequence] Generating transaction 14
+# UVM_INFO ./UVM/sequences/./aes_encrypt_sequence.svh(19) @ 185: uvm_test_top.m_env.env_agent.ag_seq@@seq [aes_encrypt_sequence] Generating transaction 15
+# UVM_INFO ./UVM/sequences/./aes_encrypt_sequence.svh(19) @ 195: uvm_test_top.m_env.env_agent.ag_seq@@seq [aes_encrypt_sequence] Generating transaction 16
+# UVM_INFO ./UVM/sequences/./aes_encrypt_sequence.svh(19) @ 205: uvm_test_top.m_env.env_agent.ag_seq@@seq [aes_encrypt_sequence] Generating transaction 17
+# UVM_INFO ./UVM/sequences/./aes_encrypt_sequence.svh(19) @ 215: uvm_test_top.m_env.env_agent.ag_seq@@seq [aes_encrypt_sequence] Generating transaction 18
+# UVM_INFO ./UVM/sequences/./aes_encrypt_sequence.svh(19) @ 225: uvm_test_top.m_env.env_agent.ag_seq@@seq [aes_encrypt_sequence] Generating transaction 19
+# UVM_INFO ./UVM/tests/./aes_encrypt_test.svh(18) @ 235: uvm_test_top [aes_encrypt_test] Completed aes_encrypt_sequence.
+# UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1267) @ 235: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+# 
+# --- UVM Report Summary ---
+# 
+# ** Report counts by severity
+# UVM_INFO :   32
+# UVM_WARNING :    0
+# UVM_ERROR :    0
+# UVM_FATAL :    0
+# ** Report counts by id
+# [Questa UVM]     2
+# [RNTST]     1
+# [TEST_DONE]     1
+# [UVMTOP]     1
+# [aes_agent]     1
+# [aes_drv]     1
+# [aes_encrypt_sequence]    20
+# [aes_encrypt_test]     3
+# [aes_env]     1
+# [aes_mon]     1
+# ** Note: $finish    : D:/QuestaSim/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh(430)
+#    Time: 235 ns  Iteration: 61  Instance: /aes_hvl_top
+# End time: 19:09:41 on Sep 17,2026, Elapsed time: 0:00:17
+# Errors: 0, Warnings: 26

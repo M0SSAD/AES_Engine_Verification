@@ -22,12 +22,14 @@ class aes_mon extends uvm_monitor;
         aes_sequence_item aes_req;
         aes_sequence_item aes_rsp;
         mon_bfm.wait_for_reset();
-        // Spawn two threads, one to observe valid requests, sample them and write them on the ap, and the otehr to observe the responses and pass them through the dedicated ap.
+        `uvm_info(get_type_name(), "Reset released. Monitor starting sampling loops.", UVM_MEDIUM)
+        // Spawn two threads, one to observe valid requests, sample them and write them on the ap, and the other to observe the responses and pass them through the dedicated ap.
         fork
             begin
                 forever begin
                     aes_req = aes_sequence_item::type_id::create("aes_req");
                     mon_bfm.sample_request(aes_req.op, aes_req.data, aes_req.key);
+                    `uvm_info(get_type_name(), $sformatf("Monitored REQ: op=%s, data=0x%032h, key=0x%032h", aes_req.op.name(), aes_req.data, aes_req.key), UVM_HIGH)
                     req_ap.write(aes_req);
                 end
             end
@@ -35,6 +37,7 @@ class aes_mon extends uvm_monitor;
                 forever begin
                     aes_rsp = aes_sequence_item::type_id::create("aes_rsp");
                     mon_bfm.sample_response(aes_rsp.valid_out, aes_rsp.data_out);
+                    `uvm_info(get_type_name(), $sformatf("Monitored RSP: valid_out=%0b, data_out=0x%032h", aes_rsp.valid_out, aes_rsp.data_out), UVM_HIGH)
                     rsp_ap.write(aes_rsp);
                 end
             end

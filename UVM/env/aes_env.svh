@@ -20,7 +20,7 @@ class aes_env extends uvm_env;
         if(!uvm_config_db#(aes_env_config)::get(this, "", "env_cfg", env_cfg)) begin
             `uvm_fatal("NOCFG", $sformatf("No CONFIG Object was placed in the DB for the %0s", get_full_name()))
         end
-
+        `uvm_info(get_type_name(), "Building AES environment and sub-components...", UVM_MEDIUM)
         env_agent = aes_agent::type_id::create("env_agent", this);
         uvm_config_db#(aes_agent_config)::set(this, "env_agent", "ag_cfg", env_cfg.ag_cfg);
 

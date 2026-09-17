@@ -24,6 +24,7 @@ class aes_agent extends uvm_agent;
         if(!uvm_config_db#(aes_agent_config)::get(this, "", "ag_cfg", ag_cfg)) begin
             `uvm_fatal("NOCFG", $sformatf("No CONFIG Object was placed in the DB for the %0s", get_full_name()))
         end
+        `uvm_info(get_type_name(), $sformatf("Configured agent with is_active=%s", ag_cfg.is_active.name()), UVM_MEDIUM)
         ag_mon = aes_mon::type_id::create("ag_mon", this);
 
         if(ag_cfg.is_active) begin
