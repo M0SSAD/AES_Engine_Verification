@@ -9,6 +9,7 @@ package aes_agent_pkg;
     `include "./aes_sequence_item.svh"
     `include "./aes_drv.svh"
     typedef uvm_sequencer#(aes_sequence_item) aes_sequencer;
+    `include "./aes_mon.svh"
 
 endpackage
 

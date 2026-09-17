@@ -34,11 +34,7 @@ interface aes_drv_bfm (
             wait(intf.valid_out);
         end
         valid_out = intf.valid_out;
-        if(op == ENCRYPT) begin
-            data_out = intf.cipher_text_128;
-        end else begin
-            data_out = intf.plain_text_128;
-        end
+        data_out = intf.cipher_text_128 | intf.plain_text_128;
     endtask
 endinterface
 

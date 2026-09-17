@@ -25,8 +25,14 @@ module aes_hdl_top ();
         .intf(intf)
     );
 
+    aes_mon_bfm mon_bfm(
+        .intf(intf)
+    );
+
     initial begin
         uvm_config_db#(virtual aes_drv_bfm)::set(null, "uvm_test_top", "drv_bfm", drv_bfm);
+        uvm_config_db#(virtual aes_mon_bfm)::set(null, "uvm_test_top", "mon_bfm", mon_bfm);
+
     end
 
     // start the clock
