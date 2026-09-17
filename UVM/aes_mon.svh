@@ -1,5 +1,5 @@
-`ifndef AES_MON_SV
-`define AES_MON_SV
+`ifndef AES_MON_SVH
+`define AES_MON_SVH
 
 class aes_mon extends uvm_monitor;
     `uvm_component_utils(aes_mon)
@@ -22,6 +22,7 @@ class aes_mon extends uvm_monitor;
         aes_sequence_item aes_req;
         aes_sequence_item aes_rsp;
         mon_bfm.wait_for_reset();
+        // Spawn two threads, one to observe valid requests, sample them and write them on the ap, and the otehr to observe the responses and pass them through the dedicated ap.
         fork
             begin
                 forever begin

@@ -1,5 +1,5 @@
-`ifndef AES_SEQUENCE_ITEM
-`define AES_SEQUENCE_ITEM
+`ifndef AES_SEQUENCE_ITEM_SVH
+`define AES_SEQUENCE_ITEM_SVH
 
 class aes_sequence_item extends uvm_sequence_item;
     rand aes_op_e op;

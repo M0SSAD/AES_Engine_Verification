@@ -4,7 +4,7 @@
 import aes_pkg::*;
 interface aes_mon_bfm (
     aes_128_inf intf
-);  
+);
     task wait_for_reset();
         // wait for reset to be inasserted, so we don't lose transactions
         // to be called before the forever loop in the proxy
@@ -12,7 +12,8 @@ interface aes_mon_bfm (
     endtask
 
     // wait for clock rising edge, sampling the input pins on it in the active region results in reading the values of the current Tx.
-    task sample_request(output aes_op_e op,
+    task sample_request(
+        output logic op,
         output logic [127:0] data,
         output logic [127:0] key
     );
@@ -37,7 +38,6 @@ interface aes_mon_bfm (
         data_out = intf.cipher_text_128 | intf.plain_text_128;
     endtask
 
-    
 endinterface
 
 `endif

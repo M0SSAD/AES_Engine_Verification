@@ -20,12 +20,11 @@ interface aes_drv_bfm (
         intf.input_text_128 <= data;
         intf.cipher_key_128 <= key;
         intf.valid_in <= 1;
-        @(posedge intf.clk); // At CLOCK N, these inputs are stable on the bus.
+        @(posedge intf.clk); // At CLOCK N, these inputs are stable on the bus, and the DUT will sample them correctly.
         intf.valid_in <= 1'b0; // schedule valid_in to 0, will be overriden to 1, if there is a back to back transactions.
     endtask
 
     task get_response(
-        input aes_op_e op,
         output logic valid_out,
         output logic [127:0] data_out
     );
